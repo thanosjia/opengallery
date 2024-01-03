@@ -20,14 +20,16 @@ FUTURE ASPIRATIONS:
 
 
 INSTALL AND RUN INSTRUCTIONS:
-1. Download an Extract the files, and open a terminal window in the root directory of the project (containing server.js and gallery-initializer.js).
+1. Download and extract the files, and open a terminal window in the root directory of the project (containing server.js and gallery-initializer.js).
 
-2. Enter the following commands:
+2. If you have not done so already, download [Node.js](https://nodejs.org/en/download) and [MongoDB Community Server](https://www.mongodb.com/try/download/community). [MongoDBCompass](https://www.mongodb.com/try/download/compass) is also a helpful tool where you can see changes to your database in real time.
+
+3. Enter the following commands:
     npm install
     node gallery-initializer.js
     node server.js
 
-3. Navigate to https://localhost:3000 in your web browser of choice.
+4. Navigate to https://localhost:3000 in your web browser of choice.
 
 
 ADDITIONAL NOTES:
