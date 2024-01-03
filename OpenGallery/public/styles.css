@@ -1,0 +1,79 @@
+nav a {
+    margin-right: 5px;
+    color: #17b44e;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: color 0.3s, background-color 0.3s;
+}
+nav a:hover {
+    color: #FFFFFF;
+    background-color: #107a35;
+    text-decoration: underline;
+}
+
+body {
+    padding-left: 10px;
+    font-family: 'Proxima Nova', Arial, sans-serif;
+    color: #dddddd;
+    background-color: #181818;
+}
+p, h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+form {
+    margin-top: 20px;
+}
+form label, form input, form button {
+    display: block;
+    margin-bottom: 10px;
+}
+input, button {
+    padding: 8px;
+    border-radius: 4px;
+}
+button {
+    background-color: #17b44e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+button:hover {
+    background-color: #107a35;
+}
+
+.cancel-btn {
+    background-color: #b41717;
+}
+.cancel-btn:hover {
+    background-color: #911212;
+}
+
+.styled-link, .link-list a {
+    color: rgb(225, 225, 225);
+    text-decoration: none;
+    margin-bottom: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.styled-link:hover, .link-list a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.like-btn {
+    width: 30px;
+    height: auto;
+    vertical-align: middle;
+    margin-left: 10px;
+    cursor: pointer;
+}

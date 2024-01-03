@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+        script(src="/login.js")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                a(href='/user') Sign Up
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1 Login
+
+        form#login-form(method='post', action='/login')
+            div
+                label(for='username') Username:
+                input(type='text', name='username', id='login-username', required)
+            div
+                label(for='password') Password:
+                input(type='password', name='password', id='login-password', required)
+            button(type='submit') Log In

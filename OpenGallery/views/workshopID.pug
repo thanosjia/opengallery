@@ -1,0 +1,66 @@
+doctype html
+html(lang='en')
+    head 
+        title= workshop.Title + " - Open Gallery"
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1= workshop.Title
+        p
+            strong Enrolled Users: 
+            | #{workshop.enrolledUsers.length}
+
+        if loggedIn
+            if workshop.enrolledUsers.includes(loggedInUserId)
+                button.cancel-btn#dropOutBtn(data-workshop-id=workshop._id) Drop Out
+            else
+                button#enrollBtn(data-workshop-id=workshop._id) Enroll
+
+        script.
+            if (document.getElementById('enrollBtn')) {
+                document.getElementById('enrollBtn').addEventListener('click', function() {
+                    const workshopId = this.dataset.workshopId;
+                    fetch('/enroll-workshop/' + workshopId, { method: 'PUT' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Successfully enrolled in the workshop!');
+                            window.location.reload();
+                        } else {
+                            alert('Failed to enroll in workshop.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while trying to enroll in the workshop.');
+                    });
+                });
+            }
+            if (document.getElementById('dropOutBtn')) {
+                document.getElementById('dropOutBtn').addEventListener('click', function() {
+                    fetch('/drop-out-workshop/' + this.dataset.workshopId, { method: 'PUT' })
+                    .then(response => {
+                        if (response.ok) window.location.reload();
+                        else alert('Failed to drop out of workshop.');
+                    });
+                });
+            }
+        p
+            strong Host: 
+            if hostUserId
+                a(href=`/user/${hostUserId}`, class="styled-link") #{workshop.Host}
+            else
+                | #{workshop.Host}
+        p
+            strong Description: 
+            | #{workshop.Description}

@@ -1,0 +1,148 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1 #{user.username}
+        p
+            | #{user.accountType}
+
+        p 
+            strong Followers: 
+            if user.followers.length > 0
+                a(href=`/user/${user._id}/followers`, class="styled-link") #{user.followers.length}
+            else
+                | #{user.followers.length}
+
+        p
+            strong Following: 
+            if user.following.length > 0
+                a(href=`/user/${user._id}/following`, class="styled-link") #{user.following.length}
+            else
+                | #{user.following.length}
+        
+        if loggedIn && !onOwnProfile
+            if currentUserIsFollowing
+                button#unfollowBtn(data-user-id=user._id) Unfollow
+                script(src='/unfollow.js')
+            else
+                button#followBtn(data-user-id=user._id) Follow
+                script(src='/follow.js')
+        br
+        
+        if user.reviews && user.reviews.length > 0
+            a(href=`/user/${user._id}/reviews`, class='styled-link') Reviews
+        
+        if artworks.length > 0
+            h2 #{user.username}'s Artworks
+            ul.link-list
+                each artwork in artworks
+                    li
+                        a(href=`/artworks/${artwork._id}`) #{artwork.Title}
+
+        if workshops.length > 0
+            h2 #{user.username}'s Workshops
+            ul.link-list
+                each workshop in workshops
+                    li
+                        a(href=`/workshops/${workshop._id}`) #{workshop.Title}
+
+        if onOwnProfile
+            if user.accountType == 'Patron'
+                p To access more features, upgrade your account to an Artist by adding artwork to the gallery!
+            button#addArtworkBtn Add Artwork
+            form#addArtworkForm(action="/add-artwork", method="post", style="display: none;")
+                input(type="hidden", name="Artist", value=user.username)
+                div
+                    label(for="Title") Title:
+                    input(type="text", name="Title", required)
+                div
+                    label(for="Year") Year:
+                    input(type="text", name="Year")
+                div
+                    label(for="Category") Category:
+                    input(type="text", name="Category")
+                div
+                    label(for="Medium") Medium:
+                    input(type="text", name="Medium")
+                div
+                    label(for="Description") Description:
+                    textarea(name="Description")
+                div
+                    label(for="Poster") Poster URL:
+                    input(type="text", name="Poster")
+                button(type="submit") Add Artwork
+                button#cancelAddArtworkBtn.cancel-btn(type="button") Cancel Add
+            br
+            if user.accountType == 'Artist'
+                button#addWorkshopBtn Add Workshop
+                form#addWorkshopForm(action="/add-workshop", method="post", style="display: none;")
+                    div
+                        label(for="Title") Title:
+                        input(type="text", name="Title", required)
+                    div
+                        label(for="Description") Description:
+                        textarea(name="Description", required)
+                    button(type="submit") Add Workshop
+                    button#cancelAddWorkshopBtn.cancel-btn(type="button") Cancel
+                br
+                button#downgradeAccountBtn.cancel-btn Downgrade to Patron
+
+        script.
+            document.getElementById('addArtworkBtn').addEventListener('click', function() {
+                document.getElementById('addArtworkForm').style.display = 'block';
+                this.style.display = 'none';
+            });
+    
+            document.getElementById('cancelAddArtworkBtn').addEventListener('click', function() {
+                document.getElementById('addArtworkForm').style.display = 'none';
+                document.getElementById('addArtworkBtn').style.display = 'block';
+            });
+
+            document.getElementById('addWorkshopBtn').addEventListener('click', function() {
+                document.getElementById('addWorkshopForm').style.display = 'block';
+                this.style.display = 'none';
+            });
+
+            document.getElementById('cancelAddWorkshopBtn').addEventListener('click', function() {
+                document.getElementById('addWorkshopForm').style.display = 'none';
+                document.getElementById('addWorkshopBtn').style.display = 'block';
+            });
+
+            if (document.getElementById('downgradeAccountBtn')) {
+                document.getElementById('downgradeAccountBtn').addEventListener('click', function() {
+                    if (confirm("Are you sure you want to downgrade your account to Patron?")) {
+                        fetch('/downgrade-account', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ userId: '#{user._id}' }),
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                alert('Failed to downgrade account.');
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                    }
+                });
+            }
+            

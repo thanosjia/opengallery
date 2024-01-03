@@ -1,0 +1,52 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/user') Profile
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+        h1 Search Gallery
+
+        form(method='get', action='/search')
+            div
+                label(for='searchTerm') Search Term:
+                input(type='text', name='searchTerm', id='searchTerm', value=searchTerm)
+            button(type='submit') Search
+
+        if users.length > 0
+            h2 User Results
+            ul.link-list
+                each user in users
+                    li
+                        a(href='/user/' + user._id.toString())= user.username
+
+        if artworks.length > 0
+            h2 Artwork Results
+            ul.link-list
+                each artwork in artworks
+                    li
+                        a(href='/artworks/' + artwork._id.toString())= artwork.Title + " - " + artwork.Artist
+
+        if workshops.length > 0
+            h2 Workshop Results
+            ul.link-list
+                each workshop in workshops
+                    li
+                        a(href='/workshops/' + workshop._id.toString())= workshop.Title + " - " + workshop.Host
+        
+        // Pagination links
+        if page > 1
+            a(href=`/search?title=${title}&artist=${artist}&year=${year}&category=${category}&medium=${medium}&page=${page - 1}`, class="styled-link") Previous
+        if moreResults
+            a(href=`/search?title=${title}&artist=${artist}&year=${year}&category=${category}&medium=${medium}&page=${page + 1}`, class="styled-link") Next

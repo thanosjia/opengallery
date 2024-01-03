@@ -1,0 +1,32 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery 
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        div#welcome-text
+            h1 Welcome!
+
+        if loggedIn
+            h2 Recent Activity
+            ul.link-list
+                each artwork in recentArtworks
+                    li
+                        a(href=`/artworks/${artwork._id}`) #{artwork.Artist} added "#{artwork.Title}" on #{artwork.createdAt.toDateString()}
+        
+            // Pagination links
+            if page > 1
+                a(href=`/?page=${page - 1}`, class="styled-link") Previous
+            if moreResults
+                a(href=`/?page=${page + 1}`, class="styled-link") Next

@@ -1,0 +1,22 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1 Artworks
+        ul.link-list
+            each artwork in artworks
+                li
+                    a(href='/artworks/' + artwork._id.toString())= artwork.Title + " - " + artwork.Artist

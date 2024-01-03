@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+    head
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+    body
+        header
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href= '/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+    h1 #{user.username}'s Reviews
+    ul.link-list
+        each review in reviews
+            li
+                a(href=`/artworks/${review.artworkId}`) Review for #{review.artworkTitle}
+                    p #{review.review}

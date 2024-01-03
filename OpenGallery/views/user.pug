@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery - Sign Up
+        link(rel="stylesheet", href="/styles.css")
+        script(src="/client.js")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                else
+                    a(href='/login') Login
+                a(href='/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1 Sign Up
+
+        form#signup-form(method='post', action='/signup')
+            div
+                label(for='username') Username:
+                input(type='text', name='username', id='username', required)
+            div
+                label(for='password') Password:
+                input(type='password', name='password', id='password', required)
+            button(type='submit') Create Account

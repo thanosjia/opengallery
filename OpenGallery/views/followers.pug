@@ -1,0 +1,22 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+        h1 Followers
+        ul.link-list
+            each follower in followers
+                li
+                    a(href=`/user/${follower._id}`) #{follower.username}

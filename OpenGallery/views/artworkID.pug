@@ -1,0 +1,83 @@
+doctype html
+html(lang='en')
+    head 
+        title Open Gallery
+        link(rel="stylesheet", href="/styles.css")
+        
+    body 
+        header 
+            nav 
+                a(href='/') Home
+                if loggedIn
+                    a(href='/logout') Logout
+                    a(href='/user/' + loggedInUserId) Profile
+                else
+                    a(href='/login') Login
+                    a(href='/user') Sign Up
+                a(href= '/artworks') Artworks
+                a(href='/workshops') Workshops
+                a(href='/search') Search Gallery
+
+        h1= artwork.Title
+        if loggedIn && artistUserId != loggedInUserId
+            if userLikesArtwork
+                button.cancel-btn#unlikeBtn(data-artwork-id=artwork._id) Unlike
+                script(src='/unlike.js')
+            else
+                button#likeBtn(data-artwork-id=artwork._id) Like
+                script(src='/like.js')
+            br
+            - var userReview = artwork.reviews.find(r => r.userId.toString() === loggedInUserId)
+            - var reviewText = userReview ? userReview.review : ''
+
+            if userReview
+                p Your Review:
+                p #{userReview.review}
+                form(action=`/artworks/${artwork._id}/remove-review`, method="post")
+                    button.cancel-btn(type="submit") Remove Review?
+            else 
+                button#addReviewBtn Add Review
+            br
+            form#reviewForm(action=`/artworks/${artwork._id}/add-review`, method="post", style="display: none;")
+                textarea(name="review", required) #{reviewText}
+                button(type="submit") Submit Review
+                button.cancel-btn#cancelAddReviewBtn(type="button", style="display: none;") Cancel Add Review
+
+            script.
+                document.getElementById('addReviewBtn').addEventListener('click', function() {
+                    document.getElementById('reviewForm').style.display = 'block';
+                    this.style.display = 'none';
+                    document.getElementById('cancelAddReviewBtn').style.display = 'block';
+                });
+
+                document.getElementById('cancelAddReviewBtn').addEventListener('click', function() {
+                    document.getElementById('reviewForm').style.display = 'none';
+                    document.getElementById('addReviewBtn').style.display = 'block';
+                    this.style.display = 'none';
+                });
+
+        a(href=`/artworks/${artwork._id}/reviews`, class='styled-link') Reviews
+
+        p
+            strong Likes: 
+            | #{ artwork.likes.length}
+        p
+            strong Artist: 
+            if artistUserId
+                a(href=`/user/${artistUserId}`, class="styled-link") #{artwork.Artist}
+            else
+                | #{artwork.Artist}
+        p
+            strong Year: 
+            | #{artwork.Year}
+        p
+            strong Category: 
+            | #{artwork.Category}
+        p
+            strong Medium: 
+            | #{artwork.Medium}
+        p
+            strong Description: 
+            | #{artwork.Description}
+        p
+            img(src=artwork.Poster, alt="Artwork Image")
