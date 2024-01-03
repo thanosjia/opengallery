@@ -1,5 +1,4 @@
 OPENGALLERY - WEB APPLICATION
-Originally developed by Thanos Jia
 
 OpenGallery is a web application that lets users view, post, like, and review artworks. Users can also view and join workshops hosted by artists, and follow other users.
 A MongoDB database was used.
