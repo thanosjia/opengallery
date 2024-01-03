@@ -20,7 +20,7 @@ FUTURE ASPIRATIONS:
 
 
 INSTALL AND RUN INSTRUCTIONS:
-1. Extract the files, and open a terminal window in the root directory of the project (containing server.js and gallery-initializer.js).
+1. Download an Extract the files, and open a terminal window in the root directory of the project (containing server.js and gallery-initializer.js).
 
 2. Enter the following commands:
     npm install
