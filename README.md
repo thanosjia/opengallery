@@ -25,9 +25,9 @@ INSTALL AND RUN INSTRUCTIONS:
 2. Download and extract the files, and open a terminal window in the root directory of the project (containing server.js and gallery-initializer.js).
 
 3. Enter the following commands:
-    npm install
-    node gallery-initializer.js
-    node server.js
+    - npm install
+    - node gallery-initializer.js
+    - node server.js
 
 4. Navigate to https://localhost:3000 in your web browser of choice.
 
